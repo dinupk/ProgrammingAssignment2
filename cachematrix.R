@@ -32,12 +32,28 @@ cacheSolve <- function(x, ...) {
   
   data<-x$get()
   inverse<-solve(data)
+  print("Not from cache")
   x$setInverse(inverse)
-  
+  inverse
 }
 
-
+#Initialize the new list type
 mat<-makeCacheMatrix()
+#initialize matrix
 mat$set(matrix(1:4,2,2))
-mat$get()
+
+#first attempt! This will not be resolved from Cache.
 inversem<-cacheSolve(mat)
+
+#calling the cachesolve again to see whether the cached matrix will be retrived
+inverse2<-cacheSolve(mat)
+
+#Try out mulitplication of the inverted matrix with original matrix
+#to verify that you get an identity matrix
+
+mat$get()%*%inversem
+
+#verify the cached matrix also is inverse by doing matrix multipplication 
+#and checking for #identity matrix
+
+mat$get()%*%inverse2
